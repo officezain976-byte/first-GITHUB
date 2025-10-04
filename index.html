@@ -1,13 +1,782 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>ReactiveForms</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    `
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@latest/src/all-weights.css"
+    />
+
+    <style>
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+
+    /* Custom animations */
+    @layer utilities {
+      @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in-up {
+        animation: fadeInUp 1s ease-out forwards;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      .animate-float-slow {
+        animation: float 6s ease-in-out infinite;
+      }
+    }
+  </style>
+  </head>
+  <body class="font-sans bg-gray-50 scroll-smooth">
+    <!-- Navbar -->
+<nav class="bg-gray-50 shadow px-4 sm:px-6 py-2 sm:py-3 fixed top-0 left-0 w-full z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+ <!-- Logo -->
+<div class="flex items-center space-x-2">
+  <a href="index.html">
+    <img src="../img/6446a8eb2ff9b553a5d58236_phonic by infillion black-p-500.png" 
+         alt="Logo" 
+         class="h-12 md:h-16 lg:h-20 w-auto cursor-pointer" />
+  </a>
+</div>
+
+
+
+    <!-- Desktop Nav Links -->
+    <div class="hidden md:flex space-x-8 text-lg font-medium text-gray-800">
+      <!-- Dropdown: Product -->
+      <div class="relative group">
+        <button class="inline-flex items-center hover:text-green-600">
+          Product
+          <svg class="ml-1 w-5 h-5 transition-transform duration-300 group-hover:rotate-180" 
+               fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <!-- Dropdown Menu -->
+        <div class="absolute left-0 mt-3 min-w-[220px] bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-300 z-50">
+          <a href="#" class="flex items-center px-4 py-2 text-black hover:text-green-700 hover:bg-gray-100">
+            Survey
+          </a>
+          <a href="#" class="flex items-center px-4 py-2 hover:bg-gray-100 whitespace-nowrap">
+            Widget Integration
+          </a>
+        </div>
+      </div>
+
+      <!-- Dropdown: Use Cases -->
+      <div class="relative group">
+        <button class="inline-flex items-center hover:text-green-600">
+          Use Cases
+          <svg class="ml-1 w-5 h-5 transition-transform duration-300 group-hover:rotate-180" 
+               fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div class="absolute left-0 mt-3 min-w-[220px] bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-300 z-50">
+          <a href="#" class="block px-4 py-2 hover:bg-gray-100">Market Analysis</a>
+          <a href="#" class="block px-4 py-2 hover:bg-gray-100">Academic Result</a>
+          <a href="#" class="block px-4 py-2 hover:bg-gray-100">Consumer Insights</a>
+          <a href="#" class="block px-4 py-2 hover:bg-gray-100">AI Research</a>
+          <a href="#" class="block px-4 py-2 hover:bg-gray-100">UIX Research</a>
+        </div>
+      </div>
+
+      <!-- Static Links -->
+      <a href="blog.html" class="hover:text-green-600">Blog</a>
+      <a href="company.html" class="hover:text-green-600">Company</a>
+      <a href="404.html" class="hover:text-green-600">Docs</a>
+    </div>
+
+    <!-- Login (Desktop only) -->
+    <div class="hidden md:block">
+      <a href="login.html" class="text-lg font-medium text-gray-800 hover:text-green-600">
+        Log in
+      </a>
+    </div>
+
+    <!-- Hamburger Button (Mobile) -->
+    <div class="md:hidden">
+      <button id="menu-btn" class="focus:outline-none">
+        <svg id="menu-icon" class="w-7 h-7 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu (hidden by default) -->
+  <div id="mobile-menu" class="hidden flex-col space-y-4 px-6 pt-4 pb-6 bg-white shadow-lg md:hidden">
+    <a href="#" class="block text-gray-800 hover:text-green-600">Product</a>
+    <a href="#" class="block text-gray-800 hover:text-green-600">Use Cases</a>
+    <a href="blog.html" class="block text-gray-800 hover:text-green-600">Blog</a>
+    <a href="company.html" class="block text-gray-800 hover:text-green-600">Company</a>
+    <a href="404.html" class="block text-gray-800 hover:text-green-600">Docs</a>
+    <a href="login.html" class="block text-gray-800 font-medium hover:text-green-600">Log in</a>
+  </div>
+</nav>
+<!-- Hero Section -->
+<section class="mt-32 mb-0 md:mb-32 text-center px-6">
+  <h1 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
+    Revolutionize your surveys with
+  </h1>
+  <span class="text-green-700 bg-green-100 px-6 py-3 rounded-lg text-3xl md:text-5xl font-bold inline-block mt-4 shadow-sm">
+    voice and video.
+  </span>
+  <p class="mt-6 text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+    Build beautiful voice and video surveys with the traditional survey question types you love. 
+    Collect rich data sets with <span class="text-green-700 font-semibold">qualitative insights</span> 
+    grounded in <span class="text-green-700 font-semibold">quantitative measures</span>.
+  </p>
+</section>
+
+<!-- section-2 -->
+<section class="relative flex justify-center items-center mt-20 hidden md:flex">
+
+  <!-- Floating Circles (left side closer & bigger) -->
+  <img 
+    src="/img/PINK.JPG" 
+    alt="circle pink medium" 
+    class="absolute left-[12%] top-[40%] w-20 opacity-85 rounded-full animate-float-fast"
+  >
+  <img 
+    src="/img/PINK.JPG" 
+    alt="circle pink small" 
+    class="absolute left-[14%] bottom-[25%] w-16 opacity-80 rounded-full animate-float"
+  >
+
+  <!-- Floating Circles (right side closer & bigger) -->
+ <img 
+  src="/img/PINK.JPG" 
+  alt="circle pink large" 
+  class="absolute right-[14%] top-[42%] w-20 opacity-90 rounded-full animate-float-medium"
+/>
+
+  <img 
+    src="/img/PINK.JPG" 
+    alt="circle pink small" 
+    class="absolute right-[16%] bottom-[22%] w-18 opacity-75 rounded-full animate-float-fast"
+  >
+
+  <!-- Floating Circles (top side closer) -->
+  <img 
+    src="/img/PINK.JPG" 
+    alt="circle pink top" 
+    class="absolute top-[8%] left-[42%] w-18 opacity-80 rounded-full animate-float-medium"
+  >
+
+  <!-- Decorative Circles (non-pink, background float) -->
+  <img 
+    src="/img/616f27acaacaf14bcdf1ba57_Group 78.png" 
+    alt="circle left big" 
+    class="absolute left-[6%] top-[20%] w-20 opacity-60 animate-float-slow"
+  >
+  <img 
+    src="/img/616f27acaacaf14bcdf1ba57_Group 78.png" 
+    alt="circle right big" 
+    class="absolute right-[8%] top-[28%] w-24 opacity-65 animate-float-slow"
+  >
+  <img 
+    src="/img/616f27acaacaf14bcdf1ba57_Group 78.png" 
+    alt="circle top medium" 
+    class="absolute top-[12%] right-[34%] w-14 opacity-60 animate-float-medium"
+  >
+
+  <!-- Main Image (centered + float animation) -->
+  <img 
+    src="/img/64daa01a675c905fb33fec09_Screenshot 2023-08-14 at 5.43.13 PM-p-1080.png" 
+    alt="Main Screenshot"
+    class="w-[850px] max-w-full rounded-lg shadow-lg relative z-10 animate-float"
+  >
+
+  <!-- Mobile Image (overlayed on main image) -->
+  <img 
+    src="/img/64da98a697e78c290463609e_IMG_D9EA64B21C16-1-p-500.jpeg" 
+    alt="Mobile Screenshot"
+    class="absolute bottom-[-20px] right-[18%] w-44 h-auto rounded-xl shadow-2xl z-20 animate-float-medium"
+  >
+
+</section>
+<!-- SECTION 3 -->
+<section class="px-6 py-16 ">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-6xl mx-auto">
+    
+    <!-- Text Content -->
+    <div class="text-center md:text-left">
+      <!-- Heading -->
+      <h1 class="text-3xl md:text-5xl font-bold text-gray-900 leading-snug">
+        A 
+        <span class="bg-green-100 text-green-700 font-bold px-2 py-1 rounded-md">
+          leaner
+        </span>, 
+        <span class="bg-green-100 text-green-700 font-bold px-2 py-1 rounded-md">
+          faster
+        </span> 
+        way  <br> of conducting research.
+      </h1>
+
+      <!-- Sub Text -->
+      <p class="mt-6 text-base md:text-lg text-gray-600">
+        Time is money. Phonic converts your currency from 
+        <em>hours</em> to <em>minutes</em> with the most user-friendly, 
+        online qualitative research solution.
+      </p>
+
+      <!-- Button -->
+      <div class="mt-8">
+        <a href="#"
+          class="inline-block bg-blue-900 text-white font-semibold px-6 py-3 rounded-full shadow hover:bg-blue-800 transition">
+          More Features
+        </a>
+      </div>
+    </div>
+<div class="relative grid grid-cols-2 gap-6 max-w-5xl mx-auto mt-10 
+             -rotate-[20deg]  hover: transition-transform duration-300 ease-out ">
+ 
+
+  <!-- Floating small circles -->
+  <img src="/img/PINK.JPG" alt="circle pink small" 
+       class="absolute left-[12%] top-[40%] w-20 opacity-85 rounded-full animate-float-fast">
+  <img src="/img/PINK.JPG" alt="circle pink small" 
+       class="absolute left-[14%] bottom-[25%] w-16 opacity-80 rounded-full animate-float-slow">
+  <img src="/img/PINK.JPG" alt="circle pink large" 
+       class="absolute right-[14%] top-[42%] w-20 opacity-90 rounded-full animate-float-medium">
+  <img src="/img/616f27acaacaf14bcdf1ba57_Group 78.png" 
+     alt="circle pink small" 
+     class="absolute right-[16%] bottom-[22%] w-24 opacity-75 rounded-full animate-float-fast">
+
+  <!-- Left Tall Image -->
+  <img src="/img/left.jpg" alt="Left Tall" 
+       class="w-full h-[600px] object-cover rounded-2xl shadow-xl col-span-1 row-span-2">
+
+  <!-- Right Top Image -->
+  <img src="/img/right.jpg" alt="Right Top" 
+       class="w-full h-[290px] object-cover rounded-2xl shadow-xl">
+
+  <!-- Right Bottom Image -->
+  <img src="/img/bottom.jpg" alt="Right Bottom" 
+       class="w-full h-[290px] object-cover rounded-2xl shadow-xl">
+
+</div>
+</section>
+
+<!-- `section-4 -->
+<h1 class="text-5xl md:text-7xl font-bold text-center text-gray-900 mt-10 md:mt-20">
+  How it Works
+</h1>
+<section class="py-16 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+      <!-- Card 1 -->
+      <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition">
+        <div class="relative inline-block mb-4">
+          <div class="bg-green-100 p-4 rounded-xl">
+            <img src="/img/solid 1.svg" alt="Icon" class="w-8 h-8 mx-auto">
+          </div>
+          <span class="absolute -top-2 -right-2 bg-green-600 text-white text-sm font-bold rounded-full w-7 h-7 flex items-center justify-center">1</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Design your survey</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Design powerful unmoderated studies that capture <strong>audio, video, screen recordings</strong>, completely hands-off.  
+          Choose from over 20 question types, add stimuli, use skip logic, and more.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition">
+        <div class="relative inline-block mb-4">
+          <div class="bg-green-100 p-4 rounded-xl">
+            <img src="/img/solid 2.svg" alt="Icon" class="w-8 h-8 mx-auto">
+          </div>
+          <span class="absolute -top-2 -right-2 bg-green-600 text-white text-sm font-bold rounded-full w-7 h-7 flex items-center justify-center">2</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Collect responses</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Share Phonic links, embed forms on your website, or integrate with third-party recruitment platforms.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition">
+        <div class="relative inline-block mb-4">
+          <div class="bg-green-100 p-4 rounded-xl">
+            <img src="/img/solid 3.svg" alt="Icon" class="w-8 h-8 mx-auto">
+          </div>
+          <span class="absolute -top-2 -right-2 bg-green-600 text-white text-sm font-bold rounded-full w-7 h-7 flex items-center justify-center">3</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Analyze your results</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Sort through data with AI-enabled features: automatic transcription, multi-modal sentiment analysis, and response tagging.
+        </p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition">
+        <div class="relative inline-block mb-4">
+          <div class="bg-green-100 p-4 rounded-xl">
+            <img src="/img/icon 4.svg" alt="Icon" class="w-8 h-8 mx-auto">
+          </div>
+          <span class="absolute -top-2 -right-2 bg-green-600 text-white text-sm font-bold rounded-full w-7 h-7 flex items-center justify-center">4</span>
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-2">Reports & Showreels</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Cut, stitch, and subtitle any media in Phonic with our cloud-based video editor to help you tell genuine stories.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Section 4 -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto my-20 px-6">
+
+  <!-- Left Images -->
+  <div class="relative flex justify-center">
+    <!-- Main Image -->
+    <img src="/img/new.jpg" alt="Main Image"
+         class="w-full max-w-md rounded-2xl shadow-xl">
+
+    <!-- Small Circle Images -->
+    <img src="/img/PINK.JPG" alt="Circle 1"
+         class="absolute w-16 h-16 rounded-full opacity-80 -top-6 -left-6 animate-float-slow">
+
+    <img src="/img/PINK.JPG" alt="Circle 2"
+         class="absolute w-20 h-20 rounded-full opacity-80 -bottom-6 -right-6 animate-float-slow">
+
+    <img src="/img/616f27acaacaf14bcdf1ba57_Group 78.png" alt="Circle 3"
+         class="absolute w-14 h-14 rounded-full opacity-75 top-1/2 -right-10 transform -translate-y-1/2 animate-float-slow">
+  </div>
+
+  <!-- Right Text -->
+  <div class="text-center md:text-left space-y-4">
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900">
+      Make audio and video a breeze.
+    </h1>
+    <p class="text-gray-600 md:text-lg leading-relaxed">
+      From storage to transcription, translation, and coding, Phonic alleviates pain points in the entire research chain.
+    </p>
+    <ul class="space-y-3">
+  <li class="flex items-center space-x-3">
+    <span class="bg-green-700 rounded-full p-1.5 flex items-center justify-center">
+      <img src="/img/check (1).svg" alt="Check" class="w-4 h-4 invert">
+    </span>
+    <span>Transcription in 32 languages</span>
+  </li>
+  <li class="flex items-center space-x-3">
+    <span class="bg-green-700 rounded-full p-1.5 flex items-center justify-center">
+      <img src="/img/check (1).svg" alt="Check" class="w-4 h-4 invert">
+    </span>
+    <span>Free translation for multilingual studies</span>
+  </li>
+  <li class="flex items-center space-x-3">
+    <span class="bg-green-700 rounded-full p-1.5 flex items-center justify-center">
+      <img src="/img/check (1).svg" alt="Check" class="w-4 h-4 invert">
+    </span>
+    <span>Automated, manual or hybrid response coding</span>
+  </li>
+  <li class="flex items-center space-x-3">
+    <span class="bg-green-700 rounded-full p-1.5 flex items-center justify-center">
+      <img src="/img/check (1).svg" alt="Check" class="w-4 h-4 invert">
+    </span>
+    <span>Sentiment and emotional analysis</span>
+  </li>
+  <li class="flex items-center space-x-3">
+    <span class="bg-green-700 rounded-full p-1.5 flex items-center justify-center">
+      <img src="/img/check (1).svg" alt="Check" class="w-4 h-4 invert">
+    </span>
+    <span>Media enabled reports and showreels</span>
+  </li>
+  <li class="flex items-center space-x-3">
+    <span class="bg-green-700 rounded-full p-1.5 flex items-center justify-center">
+      <img src="/img/check (1).svg" alt="Check" class="w-4 h-4 invert">
+    </span>
+    <span>Unlimited media storage</span>
+  </li>
+</ul>
+
+  </div>
+
+</section>
+
+<!-- section 5 -->
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+
+    <!-- LEFT SIDE CONTENT -->
+    <div class="text-center lg:text-left">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight">
+        Don't take our <br> word for it.
+      </h1>
+      <p class="text-gray-600 text-xl md:text-2xl leading-relaxed mb-10">
+        Thousands of researchers around the world<br>
+        rely on Phonic for remote research
+      </p>
+
+      <div class="flex items-center justify-center lg:justify-start space-x-12 mt-10">
+        <img src="/img/medal.svg" alt="Medal" class="h-28 w-auto">
+        <img src="/img/users-love-us.svg" alt="Users Love Us" class="h-28 w-auto">
+        <img src="/img/medal (1).svg" alt="Medal 2" class="h-28 w-auto">
+      </div>
+    </div>
+<!-- RIGHT SIDE CARDS -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-6xl mx-auto">
+  
+  <!-- CARD 1 -->
+  <div class="bg-green-50 shadow-lg rounded-2xl p-4 border flex flex-col h-full 
+              transform transition duration-300 hover:scale-105">
+    <p class="text-gray-700 italic mb-3 text-base flex-grow">
+      “An order of magnitude better insights into customer feedback by using voice and video. Users shared significantly more information when they spoke than with traditional typed/slider responses.”
+    </p>
+    <div class="mt-2 flex items-center space-x-3">
+      <img src="/img/avatar 1.svg" alt="Research Manager" class="h-12 w-12 rounded-full">
+      <div>
+        <h4 class="font-semibold text-gray-900">Research Manager</h4>
+        <p class="text-gray-500 text-sm">Fortune 500 Insights Team</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="bg-green-50 shadow-lg rounded-2xl p-4 border flex flex-col h-full 
+              transform transition duration-300 hover:scale-105">
+    <p class="text-gray-700 italic mb-3 text-base flex-grow">
+      “Voice feedback gave us 3x the depth of insight compared to surveys. It's a complete game-changer.”
+    </p>
+    <div class="mt-2 flex items-center space-x-3">
+      <img src="/img/avatar 1.svg" alt="UX Research Lead" class="h-12 w-12 rounded-full">
+      <div>
+        <h4 class="font-semibold text-gray-900">UX Research Lead</h4>
+        <p class="text-gray-500 text-sm">Global Tech Company</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="bg-green-50 shadow-lg rounded-2xl p-4 border flex flex-col h-full 
+              transform transition duration-300 hover:scale-105">
+    <p class="text-gray-700 italic mb-3 text-base flex-grow">
+      “Phonic helped us capture authentic emotions and richer stories from our participants.”
+    </p>
+    <div class="mt-2 flex items-center space-x-3">
+      <img src="/img/avatar 1.svg" alt="Head of Consumer Insights" class="h-12 w-12 rounded-full">
+      <div>
+        <h4 class="font-semibold text-gray-900">Head of Consumer Insights</h4>
+        <p class="text-gray-500 text-sm">E-commerce Leader</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="bg-green-50 shadow-lg rounded-2xl p-4 border flex flex-col h-full 
+              transform transition duration-300 hover:scale-105">
+    <p class="text-gray-700 italic mb-3 text-base flex-grow">
+      “Our team finally understands the *why* behind responses, not just the numbers.”
+    </p>
+    <div class="mt-2 flex items-center space-x-3">
+      <img src="/img/avatar 1.svg" alt="Senior Researcher" class="h-12 w-12 rounded-full">
+      <div>
+        <h4 class="font-semibold text-gray-900">Senior Researcher</h4>
+        <p class="text-gray-500 text-sm">Healthcare Enterprise</p>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</section>
+
+<!-- section -6 -->
+<section class="py-10">
+  <div class="flex justify-center">
+    <img src="/img/tags.jpg" 
+         alt="Tags">
+  </div>
+</section>
+
+
+<!-- section-7 -->
+<section class="py-12 ">
+  <h1 class="text-3xl md:text-5xl font-bold text-center text-gray-900">
+    Built for feedback of 
+    <span class="text-green-700 bg-green-100">all kinds.</span>
+  </h1>
+<!-- cards section -->
+<section class="py-16 ">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+
+    <!-- card-1 -->
+    <div class="bg-gray-50 shadow-md rounded-2xl p-10 text-center min-h-[280px] flex flex-col justify-center">
+      <img src="/img/child.svg" alt="Customer Feedback" class="h-16 w-16 mx-auto mb-6">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Customer Feedback</h3>
+      <p class="text-gray-600 text-base leading-relaxed">
+        Your customers want their voices to be heard. They want to share their ideas and explain their feelings authentically. Phonic lets them.
+      </p>
+    </div>
+
+    <!-- card-2 -->
+    <div class="bg-gray-50 shadow-md rounded-2xl p-10 text-center min-h-[280px] flex flex-col justify-center">
+      <img src="/img/ppl.svg" alt="Employee Feedback" class="h-16 w-16 mx-auto mb-6">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Employee Feedback</h3>
+      <p class="text-gray-600 text-base leading-relaxed">
+        Give your employees a safe space to share opinions and emotions authentically with voice and video feedback.
+      </p>
+    </div>
+
+    <!-- card-3 -->
+    <div class="bg-gray-50 shadow-md rounded-2xl p-10 text-center min-h-[280px] flex flex-col justify-center">
+      <img src="/img/solid 1.svg" alt="Market Research" class="h-16 w-16 mx-auto mb-6">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Market Research</h3>
+      <p class="text-gray-600 text-base leading-relaxed">
+        Capture deeper insights for your research projects by letting participants speak naturally instead of typing short answers.
+      </p>
+    </div>
+
+    <!-- card-4 -->
+    <div class="bg-gray-50 shadow-md rounded-2xl p-10 text-center min-h-[280px] flex flex-col justify-center">
+      <img src="/img/child.svg" alt="Customer Feedback" class="h-16 w-16 mx-auto mb-6">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Customer Feedback</h3>
+      <p class="text-gray-600 text-base leading-relaxed">
+        Your customers want their voices to be heard. They want to share their ideas and explain their feelings authentically. Phonic lets them.
+      </p>
+    </div>
+
+    <!-- card-5 -->
+    <div class="bg-gray-50 shadow-md rounded-2xl p-10 text-center min-h-[280px] flex flex-col justify-center">
+      <img src="/img/ppl.svg" alt="Employee Feedback" class="h-16 w-16 mx-auto mb-6">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Employee Feedback</h3>
+      <p class="text-gray-600 text-base leading-relaxed">
+        Give your employees a safe space to share opinions and emotions authentically with voice and video feedback.
+      </p>
+    </div>
+
+    <!-- card-6 -->
+    <div class="bg-gray-50 shadow-md rounded-2xl p-10 text-center min-h-[280px] flex flex-col justify-center">
+      <img src="/img/solid 1.svg" alt="Market Research" class="h-16 w-16 mx-auto mb-6">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Market Research</h3>
+      <p class="text-gray-600 text-base leading-relaxed">
+        Capture deeper insights for your research projects by letting participants speak naturally instead of typing short answers.
+      </p>
+    </div>
+
+  </div>
+</section>
+<!-- section - 8 -->
+<section class="py-16 bg-gray-50">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900">
+      Latest <span class="text-green-700">blog posts</span>
+    </h1>
+  </div>
+
+  <!-- blog cards section -->
+  <div class="max-w-full mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+    <!-- card-1 -->
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
+      <img src="/img/amazonjpg.jpg" alt="Amazon Blog" class="w-full h-52 object-cover rounded-t-2xl">
+      <div class="p-4 text-center">
+        <span class="text-green-700 text-xs font-semibold uppercase tracking-wide block">Blog</span>
+        <h3 class="text-lg font-semibold text-gray-900 mt-2 leading-snug">
+          Diving Deeper with Voice: <br> How Consumers Use Amazon
+        </h3>
+        <p class="text-gray-500 text-xs mt-2">August 22, 2023</p>
+      </div>
+    </div>
+
+    <!-- card-2 -->
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
+      <img src="/img/map.png" alt="Voice Trends Blog" class="w-full h-52 object-cover rounded-t-2xl">
+      <div class="p-4 text-center">
+        <span class="text-green-700 text-xs font-semibold uppercase tracking-wide block">Blog</span>
+        <h3 class="text-lg font-semibold text-gray-900 mt-2 leading-snug">
+          Exploring Voice Trends: <br> Consumer Insights 2023
+        </h3>
+        <p class="text-gray-500 text-xs mt-2">September 12, 2023</p>
+      </div>
+    </div>
+
+    <!-- card-3 -->
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
+      <img src="/img/welcome.jpg" alt="Market Research Blog" class="w-full h-52 object-cover rounded-t-2xl">
+      <div class="p-4 text-center">
+        <span class="text-green-700 text-xs font-semibold uppercase tracking-wide block">Blog</span>
+        <h3 class="text-lg font-semibold text-gray-900 mt-2 leading-snug">
+          Voice Feedback in <br> Market Research
+        </h3>
+        <p class="text-gray-500 text-xs mt-2">October 5, 2023</p>
+      </div>
+    </div>
+
+    <!-- card-4 -->
+    <div class="bg-white shadow-lg rounded-2xl overflow-hidden transform hover:-translate-y-2 hover:shadow-2xl transition duration-300">
+      <img src="/img/graph1.jpg" alt="Voice Matters Blog" class="w-full h-52 object-cover rounded-t-2xl">
+      <div class="p-4 text-center">
+        <span class="text-green-700 text-xs font-semibold uppercase tracking-wide block">Blog</span>
+        <h3 class="text-lg font-semibold text-gray-900 mt-2 leading-snug">
+          Authentic Emotions: <br> Why Voice Matters
+        </h3>
+        <p class="text-gray-500 text-xs mt-2">October 20, 2023</p>
+      </div>
+    </div>
+
+  </div>
+</section>  <!-- footer -->
+<footer class="py-12">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 px-6">
+
+    <!-- Left section (logo + info) -->
+    <div>
+      <img src="/img/logoo.jpg" alt="Logo" class="w-36 mb-6">
+      <p class="text-base mb-3">
+        Made with ❤️ in Sunnyvale, CA / Toronto, ON
+      </p>
+      <p class="text-base">
+        contact@phonic.ai
+      </p>
+    </div>
+
+    <!-- Right section (links grid) -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-10">
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class=" font-semibold text-lg md:text-xl mb-5">Quick Links</h4>
+        <ul class="space-y-3 text-base">
+          <li><a href="company.html" class="hover:text-green-500">Company</a></li>
+          <li><a href="blog.html" class="hover:text-green-500">Blog</a></li>
+          <li><a href="pagenotfound.html" class="hover:text-green-500">Phonic Docs</a></li>
+        </ul>
+      </div>
+
+      <!-- Social -->
+      <div>
+        <h4 class="  font-semibold text-lg md:text-xl mb-5">Social</h4>
+        <ul class="space-y-3 text-base">
+          <li><a href="#" class="hover:text-green-500">LinkedIn</a></li>
+          <li><a href="#" class="hover:text-green-500">Twitter</a></li>
+        </ul>
+      </div>
+
+      <!-- Docs & Legal -->
+      <div>
+        <h4 class="  font-semibold text-lg md:text-xl mb-5">Docs & Legal</h4>
+        <ul class="space-y-3 text-base">
+          <li><a href="#" class="hover:text-green-500">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-green-500">Terms of Service</a></li>
+          <li><a href="#" class="hover:text-green-500">What is Phonic?</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+
+  
+
+ <style>
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float 10s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: float 4s ease-in-out infinite;
+} ;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); } /* adjust height */
+}
+
+/* Different speed classes */
+.animate-float-slow {
+  animation: float 8s ease-in-out infinite;
+}
+.animate-float-medium {
+  animation: float 6s ease-in-out infinite;
+}
+.animate-float-fast {
+  animation: float 4s ease-in-out infinite;
+}
+ 
+</style>
+
+
+
+
+
+
+
+
+
+<script>
+  const menuBtn = document.getElementById("menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const menuIcon = document.getElementById("menu-icon");
+
+  let isOpen = false;
+
+  menuBtn.addEventListener("click", () => {
+    isOpen = !isOpen;
+
+    // Toggle menu
+    mobileMenu.classList.toggle("hidden");
+
+    // Change icon
+    if (isOpen) {
+      menuIcon.innerHTML = `
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"/>
+      `;
+    } else {
+      menuIcon.innerHTML = `
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M4 6h16M4 12h16M4 18h16"/>
+      `;
+    }
+  });
+   document.addEventListener("DOMContentLoaded", () => {
+    fetch(window.location.pathname, { method: "HEAD" })
+      .then(res => {
+        if (!res.ok) {
+          window.location.replace("/404.html"); 
+        }
+      })
+      .catch(() => {
+        window.location.replace("/404.html");
+      });
+  });
+ 
+</script>
+
+
+
+  </body>
 </html>
